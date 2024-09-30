@@ -29,11 +29,11 @@ prompt_template = ChatPromptTemplate.from_messages(template_messages)
 
 
 # Callbacks support token-wise streaming
-callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
+callback_manager = CallbackManager(handlers=[StreamingStdOutCallbackHandler()])
 
 # Make sure the model path is correct for your system!
 llm = LlamaCpp(
-    model_path="llama-2-7b-chat.Q2_K.gguf",
+    model_path="/home/nilllas/.cache/huggingface/hub/models--hugging-quants--Llama-3.2-3B-Instruct-Q8_0-GGUF/snapshots/7ef7efff7d2c14e5d6161a0c7006e1f2fea6ec79/llama-3.2-3b-instruct-q8_0.gguf", #llama-2-7b-chat.Q2_K.gguf",
     temperature=0.75,
     max_tokens=2000,
     top_p=1,
@@ -41,7 +41,7 @@ llm = LlamaCpp(
     verbose=True,  # Verbose is required to pass to the callback manager
 )
 
-model = Llama2Chat(llm=llm)
+model = Llama2Chat(llm=llm, callback_manager=callback_manager)
 
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
